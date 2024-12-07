@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/Rreg.css' %}">
+</head>
+<body>
+    <div class="main">
+        <h2>REGISTARION FORM</h2>
+       
+        <form action="" method="post" enctype="multipart/form-data">
+            {%csrf_token%}
+           
+            <input type="text" id="Name" name="Name"  placeholder="NAME"/><br><br>
+            <input type="text" id="place" name="place" placeholder="Place"/><br><br>
+            <input type="text" id="post" name="post" placeholder="POST"/><br><br>
+            <input type="text" id="pin" name="pin" placeholder="PIN"><br><br>
+            <input type="text" id="phone" name="phone" placeholder="Phone"><br><br>
+            <input type="text" id="Username" name="Username" placeholder="Username"><br><br>
+            <input type="email" id="email" name="email" placeholder="EMAIL"/><br><br> 
+            <input type="password" id="password" name="password" placeholder="PASSWORD" /><br><br>  
+            <button type="submit">REGISTER</button>
+            
+</form>
+ </div>
+</body>
+</html>

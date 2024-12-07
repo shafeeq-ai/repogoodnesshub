@@ -1,0 +1,39 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   
+</head>
+<body>
+    <div class="table-container">
+        <h3>complaints</h3>
+        <table id="food-info-table" border="1">
+            <thead>
+                <tr>
+                  <a href="viewandmanagefoodinfo"> <i class="fa-solid fa-plus"></i></a> 
+                </tr>
+                <tr>
+                    <th>item</th>
+                    <th>reply</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+               {%for i in val%}
+                <tr>
+                    <td>{{i.foodcategory}}</td>
+                    <td>{{i.food_status}}</td>
+                    <td>{{i.food_name}}</td>
+                    <td>{{i.about}}</td>
+                    <td><a href="EditFoodinformation/{{i.id}}">EDIT</a></td>
+                    <td><a href="DeleteFoodinformation/{{i.id}}">DELETE</a></td>
+                </tr>
+                {%endfor%}
+                <!-- Add more rows dynamically here -->
+            </tbody>
+        </table>
+    </div>
+    </body>
+    </html>

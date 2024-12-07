@@ -1,0 +1,28 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/foodinformation.css' %}">
+</head>
+<body>
+    <div class="main">
+        <h2>FOOD INFORMATION</h2>
+       
+        <form action="" method="post">
+            {%csrf_token%}
+            
+            
+            <input type="text" id="first" name="foodcategory"  placeholder="FOOD CATEGORY" value="{{val.foodcategory}}"/><br><br>
+            <input type="text" id="phone no" name="food_status"  placeholder="FOOD status" value="{{val.food_status}}"/><br><br>
+            <input type="text" id="contact" name="food_name"  placeholder="FOOD NAME" value="{{val.food_name}}"/><br><br>
+            <input type="text" id="about" name="about" placeholder="about" value="{{val.about}}"/><br><br>
+            <button type="submit">EDIT</button>
+</form>
+ </div>
+
+ 
+
+</body>
+</html>

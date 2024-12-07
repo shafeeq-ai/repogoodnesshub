@@ -1,0 +1,45 @@
+{% load static %}
+<html lang="en" dir="ltr">
+   <head>
+      <meta charset="utf-8">
+    
+      <link rel="stylesheet" href="{% static 'css/camp mainpage.css' %}">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href=".css"/>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+      <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+   </head>
+   <body>
+      <nav>
+         <ul>
+            <li class="logo">camp</li>
+            <li class="btn"><span class="fas fa-bars"></span></li>
+            <div class="items">
+               <li><a href="/foodinformation">FOOD INFORMATION</a></li>
+               <li><a href="/manage">MANAGE PROFILE</a></li>
+               <li><a href="/complaint">COMPLIANTS</a></li>
+               <li><a href="/register">REGISTER</a></li>
+               <li><a href="/donation">DONATION</a></li>
+               <li><a href="/medical">MEDICAL</a></li>
+               <li><a href="/request">REQUEST</a></li>
+               <li><a href="/working status">WORKING STATUS</a></li>
+
+
+            </div>
+            <li class="search-icon">
+               <input type="search" placeholder="Search">
+               <label class="icon">
+               <span class="fas fa-search"></span>
+               </label>
+            </li>
+         </ul>
+      </nav>
+      <script>
+         $('nav ul li.btn span').click(function(){
+           $('nav ul div.items').toggleClass("show");
+           $('nav ul li.btn span').toggleClass("show");
+         });
+      </script>
+   </body>
+</html>
