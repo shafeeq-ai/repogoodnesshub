@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="medical.css">
+</head>
+    <body>
+        <style>
+            body{
+    background-image:url("");
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    height: 110vh;
+    align-items: center;
+    backdrop-filter: blur(0px);
+}
+.main{
+    background-color: rgba(0,0,0, 0.5);
+    width:450px;
+    margin-left: 500px;
+    height:400px;
+    
+
+}
+input, select{
+    margin-left: 80px;
+    border-radius: 10px;
+    width: 250px;
+    padding: 15px;
+    border: 1px solid black;
+    background-color: rgba(red, rgb(255, 255, 255), blue, alpha);
+}
+button{
+    margin-left: 170px;
+    padding: 15px;
+    border-radius: 15px;
+    background-color: black;
+    color: white;
+
+}
+h2{
+    margin-left: 100px;
+    border:1px;
+    color: aliceblue;
+}
+
+
+        </style>
+        <div class="main">
+            <h2>MEDICAL ACCESSORIES & CLOTHES</h2>
+           
+           
+        <form action="" method="post">
+            {%csrf_token%}  
+                
+                <input type="text" id="first" name="Item"  placeholder="ITEM"/><br><br>
+                <input type="text" id="first" name="Quantity"  placeholder="CATEGORY"/><br><br>
+
+
+                <select name="Request">
+                    <option>REQUEST</option>
+                    <option>Medical accessories</option>
+                    <option>Clothes</option>
+                 
+                </select><br><br>
+                <!-- <input type="file" id="file" name="file"> -->
+                <button type="submit">SENT</button>
+                
+    </form>
+     </div>
+    </body>

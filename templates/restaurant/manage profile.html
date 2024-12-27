@@ -1,23 +1,25 @@
-<!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="manage profile.css">
+    <link rel="stylesheet" href="{% static 'css/managee.css' %}">
 </head>
 <body>
     <div class="main">
         <h2>MANAGE PROFILE</h2>
        
-        <form action="">
+        <form action="" method="post">
+        {% csrf_token %}
+            <input type="text" id="Name" name=" Name"  placeholder="Name" value="{{val.Name}}"><br><br>
+            <input type="text" id="place" name="place" placeholder="Place" value="{{val.place}}"/><br><br>
+            <input type="text" id="Post" name="Post" placeholder="Post" value="{{val.Post}}"/><br><br>
+            <input type="text" id="Pin" name="Pin" placeholder="Pin" value="{{val.Pin}}"/><br><br>
+            <input type="text" id="Phone" name="Phone" placeholder="Phone" value="{{val.Phone}}"><br><br>
+            <input type="email" id="Email" name="Email" placeholder="EMAIL" value="{{val.Email}}"/><br><br> 
+            <button type="submit">MANAGE</button>
             
-            <input type="text" id="first" name="first"  placeholder="NAME"/><br><br>
-            <input type="text" id="location" name="location "  placeholder="LOCATION"/><br><br>
-            <input type="text" id="phone no" name="phone no"  placeholder="PHONE NO"/><br><br>
-            <input type="text" id="contact" name="contact"  placeholder="TYPE"/><br><br>
-            <input type="text" id="about" name="about" placeholder="ABOUT"/><br><br>
-            <button type="submit">EDIT</button>
 </form>
  </div>
 </body>

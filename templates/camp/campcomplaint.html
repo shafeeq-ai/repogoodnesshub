@@ -1,0 +1,37 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/campcomplaints.css' %}">
+    <body>
+        <body>
+            <div class="table-container">
+                <h3>COMPLAINT</h3>
+                <table id="food-info-table" border="1">
+                    <form action="" method="post">
+                        {%csrf_token%}
+                    <thead>
+                       
+                        <tr>
+                            <th>item/username </th>
+                            <th>Discription</th>
+                            <th>Date</th>
+                            
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in val %}
+                     <tr>
+                            <td>{{i.LOGIN.Username}}</td>
+                            <td>{{i.Complaint}}</td>
+                            <td>{{i.Date}}</td>
+                     </tr>
+                     {% endfor %}
+                </tbody>
+                </table>
+            </div>
+            </body>
+            </html>

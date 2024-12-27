@@ -1,7 +1,7 @@
 
 
 body{
-    background-image:url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZCdcqwUYId9E3xf54TjJDFpvNlHB6g_N5erSm2Qq6td8UeWoxZlG3TqF0X88-e2EWpsA&usqp=CAU);
+    background-image:url("https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=600");
     background-size: cover;
     display: flex;
     justify-content: center;
@@ -11,7 +11,7 @@ body{
 }
 .main{
     background-color: rgba(0,0,0, 0.5);
-    width:500px;
+    width:400px;
     margin-left: 550px;
     height:450px;
     

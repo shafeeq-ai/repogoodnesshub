@@ -28,21 +28,22 @@ urlpatterns = [
 
     path('viewandmanagefoodinfo', AddFoodinformation.as_view(), name="viewandmanagefoodinfo"),
     
+    path('sendnotification', sendnotification.as_view(), name="sendnotification"),
+
+    path('adminreply/<int:C_id>/',AdminReply.as_view(), name="adminreply"),
+    
+    
+    
     
     # ////////////////////////////////////// CAMP ///////////////////////////////////////////
 
     path('camp_homepage', camp_homepage.as_view(), name="camp_homepage"),
     
-    path('complaint', complaint.as_view(), name="complaint"),
+    path('campcomplaint', campcomplaint.as_view(), name="campcomplaint"),
     
     path('donation', donation.as_view(), name="donation"),
     
-    path('manage', manage.as_view(), name="manage"),
-
-    path('medical', medical.as_view(), name="medical"),
-
-
-    path('request', request.as_view(), name="request"),
+    path('send_request', send_request.as_view(), name="send_request"),
 
     path('working status', workingstatus.as_view(), name="working status"),
 
@@ -57,7 +58,7 @@ urlpatterns = [
 
     path('food information', foodinformation.as_view(), name="food information"),
 
-    path('manage profile', manageprofile.as_view(), name="manage profile"),
+    path('manage_profile', manageprofile.as_view(), name="manage profile"),
 
     path('notification', notification.as_view(), name="notification"),
 

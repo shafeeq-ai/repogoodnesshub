@@ -1,22 +1,34 @@
-<!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="food information.css">
-</head>
-<body>
-    <div class="main">
-        <h2>NOTIFICATION</h2>
-       
-        <form action="">
-            
-            <input type="text" id="first" name="first"  placeholder="NOTIFICATION"/><br><br>
-            <input type="text" id="notification" name="dicscription "  placeholder="DATE OF NOTIFICATION"/><br><br>
-           <button type="submit">SENT</button>
-</form>
-</div>
-<body>
-</body>
-</html>
+    <link rel="stylesheet" href="{% static 'css/admin notificationn.css' %}">
+    <body>
+        <body>
+            <div class="table-container">
+                <h3>NOTIFICATIONS</h3>
+                <table id="food-info-table" border="1">
+                    <thead>
+                       
+                        <tr>
+                            <th>Date of notification </th>
+                            <th>Notification</th>
+                            
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in a %}
+                     <tr>
+                            <td>{{i.Date}}</td>
+                            <td>{{i.Notification}}</td>
+                            
+                     </tr>
+                     {% endfor %}
+                </tbody>
+                </table>
+            </div>
+            </body>
+            </html>

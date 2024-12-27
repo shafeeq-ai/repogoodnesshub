@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Working Status</title>
     <link rel="stylesheet" href="working.css">
 </head>
 <body>
     <div class="main">
         <h2>WORKING STATUS</h2>
        
-        <form action="">
+        <form action=""  method="post">  <!-- Specify the view's URL name for the form submission -->
+            {% csrf_token %}
             
-            <input type="text" id="first" name="first"  placeholder="WORKING STATUS"/><br><br>
-            <input type="text" id="reply" name="time"  placeholder="TIME"/><br><br>
-            <input type="text" id="reply" name="date"  placeholder="DATE"/><br><br>
-</div>
-<body>
+            <input type="text" id="first" name="Status" placeholder="WORKING STATUS" required/><br><br>  <!-- Name attribute matches model field -->
+            
+            <input type="date" id="reply" name="Date" placeholder="DATE" required/><br><br>  <!-- Name attribute matches model field -->
+            
+            <input type="submit" value="Submit">
+        </form>
+    </div>
 </body>
 </html>

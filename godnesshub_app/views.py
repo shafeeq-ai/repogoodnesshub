@@ -7,7 +7,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import View
 from .form import *
-from .models import LoginTable
+from django.utils import timezone
+from .models import *
 
 
 
@@ -22,6 +23,7 @@ class LoginPage(View):
         username = request.POST['username']
         password = request.POST['password']
         login_obj= LoginTable.objects.get(Username=username, password=password)
+        request.session['lid']=login_obj.id
         if login_obj.Type =="admin":
             return HttpResponse('''<script>alert("welcome to admin home");window.location="/main_page"</script>''')
         if login_obj.Type =="restaurant":
@@ -34,15 +36,39 @@ class LoginPage(View):
 
 # /////////////////////////////////////////////////// ADMIN //////////////////////////////////////
 
-
+class sendnotification(View):
+    def get(self, request):
+        return render(request, "administration/sendnotification.html")
+    def post(self,request):
+        form=notificationform(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse('''<script>alert("Notification sent");window.location="/notifications"</script>''')
+    
+    
 
 class ViewComplaint(View):
     def get(self, request):
-        return render(request, "administration/complaint.html")
-    
+        obj=ComplaintTable.objects.all()
+        return render(request, "administration/complaint.html",{'val':obj})
+
+class AdminReply(View):
+    def get(self, request,C_id):
+        obj=ComplaintTable.objects.get(id=C_id)
+        print(obj)
+        return render(request, "administration/adminreply.html")
+    def post(self,request,C_id):
+        obj=ComplaintTable.objects.get(id=C_id)
+        form=adminreplyform(request.POST,instance=obj)
+        if form.is_valid():
+            form.save()
+        return HttpResponse('''<script>alert("reply sent");window.location="/view_complaint"</script>''')
+        
+
 class Feedback(View):
     def get(self, request):
-        return render(request, "administration/feedback.html")
+        obj=feedbackTable.objects.all()
+        return render(request, "administration/feedback.html",{'val':obj})
 
 class Foodinformation(View):
     def get(self, request):
@@ -54,7 +80,6 @@ class AddFoodinformation(View):
         return render(request, "administration/food information.html")
 
     def post(self, request):
-     print("jj")
      form=addfoodform(request.POST)
      if form.is_valid():
       form.save()
@@ -90,7 +115,8 @@ class EditFoodinformation(View):
 
 class Notification(View):
     def get(self, request):
-        return render(request, "administration/notification.html")
+         obj=NotificationTable.objects.all()
+         return render(request, "administration/notification.html",{'val':obj})
 
 class restuarantregistration(View):
     def get(self, request):
@@ -157,34 +183,83 @@ class camp_homepage(View):
     def get(self, request):
         return render(request, "camp\camp_homepage.html")
 
-class complaint(View):
+class campcomplaint(View):
     def get(self, request):
-        return render(request, "camp\complaint.html")
-    
+        obj=ComplaintTable.objects.all()
+        return render(request, "camp\campcomplaint.html",{'val':obj})
+            
 class donation(View):
     def get(self, request):
-        return render(request, "camp\donation.html")
+        obj=ComplaintTable.objects.all()
+        return render(request, "camp\donation.html",{'val':obj})
 
 class manage(View):
     def get(self, request):
         return render(request, "camp\manage.html")
 
-class medical(View):
+class send_request(View):
     def get(self, request):
-        return render(request, "camp\medical.html")
-
-class foodinformation(View):
-    def get(self, request):
-        return render(request, "camp\food information.html")
-
-    
-class request(View):
-    def get(self, request):
-        return render(request, "camp/request.html")
+        return render(request, "camp\send_request.html")
+    def post(self,request):
+        form=requestform(request.POST)
+        if form.is_valid():
+            request_instance=form.save(commit=False)
+            print(request.session.get('lid'))
+            obj=LoginTable.objects.get(id=request.session.get('lid'))
+            request_instance.LOGIN=obj
+            request_instance.save()
+            return HttpResponse('''<script>alert("Request sented");window.location="/camp_homepage"</script>''')
     
 class workingstatus(View):
     def get(self, request):
         return render(request, "camp/working status.html")
+
+    def post(self, request):
+        # Assuming login_obj.id is stored in the session
+        login_id = request.session.get('lid')
+
+        # Ensure the login_id is valid
+        if login_id:
+            try:
+                # Fetch the LoginTable object using the stored login ID
+                login_obj = LoginTable.objects.get(id=login_id)
+
+                # Fetch the existing CampTable entry that corresponds to this login ID
+                camp = CampTable.objects.filter(LOGINID=login_obj).first()
+
+                # Check if we have a valid camp associated with the login
+                if camp:
+                    # Process the form data
+                    form = StatusForm(request.POST)
+
+                    if form.is_valid():
+                        # Update the existing CampTable entry
+                        camp.Status = form.cleaned_data['Status']  # Update status
+                        camp.Time = timezone.now().strftime('%H:%M:%S')  # Set the current time
+                        camp.Date = form.cleaned_data['Date']  # Update the date from the form
+                        
+                        # Save the updated camp record
+                        camp.save()
+
+                        # Redirect or provide a success response
+                        return HttpResponse('''<script>alert("Status Updated");window.location="/camp_homepage"</script>''')
+
+            except LoginTable.DoesNotExist:
+                return HttpResponse('Error: Invalid login ID.')
+
+        return HttpResponse('Error: Login session expired or invalid.')
+    
+
+# class foodinformation(View):
+#     def get(self, request):
+#         return render(request, "camp\food information.html")
+
+    
+# class request(View):
+#     def get(self, request):
+#         return render(request, "camp/request.html")
+    
+
 
 #/////////////////////////////restaurant////////////////////////
 
@@ -194,7 +269,8 @@ class restauranthomepage(View):
 
 class feedback(View):
     def get(self, request):
-        return render(request, "restaurant/feedback.html")
+        obj=feedbackTable.objects.all()
+        return render(request, "restaurant/feedback.html",{'val':obj}) 
 
 class foodinformation(View):
     def get(self, request):
@@ -202,11 +278,20 @@ class foodinformation(View):
 
 class manageprofile(View):
     def get(self, request):
-        return render(request, "restaurant/manage profile.html")
-  
+        obj=ResturantTable.objects.get(LOGINID__id=request.session['lid'])
+        return render(request, "restaurant/manage profile.html",{'val':obj})
+    def post(self, request):
+        obj=ResturantTable.objects.get(LOGINID__id=request.session['lid'])
+        form=RestaurantForm(request.POST,instance=obj)
+        if form.is_valid():
+            form.save()
+        return HttpResponse('''<script>alert("Information updated");window.location="/restaurant_home_page"</script>''')
+
+    
 class notification(View):
     def get(self, request):
-        return render(request, "restaurant/notification.html")
+        c=NotificationTable.objects.all()
+        return render(request, "restaurant/notification.html", {'a':c})
     
 class complaint(View):
     def get(self, request):

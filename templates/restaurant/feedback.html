@@ -1,27 +1,35 @@
-<!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="feedback.css">
+    <link rel="stylesheet" href="{% static 'css/admin feedback.css' %}">
     <body>
-        <div class="main">
-            <h2>FEEDBACK FORM</h2>
-           
-            <form action="">
-                
-                <input type="text" id="first" name="first"  placeholder="REVIEW"/><br><br>
-                <select>
-                    <option>RATING</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select><br><br>
-                <button type="submit">SENT</button>
-                
-    </form>
-     </div>
-    </body>
+        <body>
+            <div class="table-container">
+                <h3> FEEDBACK</h3>
+                <table id="food-info-table" border="1">
+                    <thead>
+                       
+                        <tr>
+                            <th>Name</th>
+                            <th>Review </th>
+                            <th>Rating </th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in val %}
+                     <tr>
+                            <td>{{i.USER.Username}}</td>
+                            <td>{{i.Feedback}}</td>
+                            <td>{{i.Rating}}</td>
+                            
+                     </tr>
+                     {% endfor %}
+                </tbody>
+                </table>
+            </div>
+            </body>
+            </html>

@@ -1,23 +1,48 @@
-<!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="donation.css">
-</head>
-<body>
-    <div class="main">
-        <h2>DONATION</h2>
-       
-        <form action="">
-            
-            <input type="text" id="first" name="first"  placeholder="USER NAME"/><br><br>
-            <input type="text" id="location" name="item "  placeholder="ITEM"/><br><br>
-            <input type="text" id="phone no" name="date"  placeholder="DATE"/><br><br>
-            <input type="text" id="contact" name="category"  placeholder="CATEGORY"/><br><br>
-            
-</form>
- </div>
-</body>
-</html>
+    <link rel="stylesheet" href="{% static 'css/donation.css' %}">
+    <body>
+        <div class="table-container">
+            <h3>DONATION</h3>
+            <table id="food-info-table" border="1">
+                <thead>
+                   
+                    <tr>
+                        <th>UserName</th>
+                        <th>Item</th>
+                        <th>Date</th>
+                        <th>Category</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in val %}
+                 <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        
+                 </tr>
+                 {% endfor %}
+            </tbody>
+            </table>
+        </div>
+        </body>
+        </html>
+
+
+
+
+
+
+
+
+
+
+
+

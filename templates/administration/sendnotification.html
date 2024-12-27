@@ -1,0 +1,21 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/send notification.css' %}">
+</head>
+<body>
+    <div class="main">
+        <h2>NOTIFICATION</h2>
+       
+        <form action="" method="post">
+            {%csrf_token%}
+            <textarea name="Notification" id="notification" placeholder="enter notification" rows="5" cols="51"></textarea><br><br>
+           <button type="submit">SENT</button>
+</form>
+</div>
+<body>
+</body>
+</html>

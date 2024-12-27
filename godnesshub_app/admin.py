@@ -13,5 +13,5 @@ admin.site.register(ItemTable)
 admin.site.register(RequestTable)
 admin.site.register(ComplaintTable)
 admin.site.register(DonationTable)
-admin.site.register(WorkingstatusTable)
+
 admin.site.register(fooddetails)
