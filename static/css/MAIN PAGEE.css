@@ -133,7 +133,10 @@ nav ul li.btn span.show:before{
 } */
 
 /* mobile screen */
-@media screen and (max-width: 426px) {
+@media screen and (min-width: 426px) and (max-width:760px) {
+  nav{
+    background-color: #e6e6e6;
+  }
   nav ul{
     flex-wrap: nowrap;
   }

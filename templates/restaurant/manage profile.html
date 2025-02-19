@@ -1,26 +1,113 @@
-{% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/managee.css' %}">
+    <title>Manage Profile</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Style -->
+    <style>
+        body {
+            background-image: url("https://media.istockphoto.com/id/636249452/photo/manage.jpg?s=612x612&w=0&k=20&c=fAM_rGgPIQUCQu8WFyBm_7kfIle1FRLEQbxR9Ztmyd4=");
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main {
+            background: rgba(0, 0, 0, 0.8); /* Dark translucent background */
+            border-radius: 15px;
+            padding: 40px;
+            width: 400px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            text-align: center;
+            color: #ffffff;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input {
+            margin-bottom: 20px;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #f3f4f6;
+            color: #333333;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(45deg, #1e90ff, #00bfff);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #00bfff, #1e90ff);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .main {
+                width: 90%;
+                padding: 30px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            button {
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="main">
-        <h2>MANAGE PROFILE</h2>
-       
+        <h2>Manage Profile</h2>
         <form action="" method="post">
-        {% csrf_token %}
-            <input type="text" id="Name" name=" Name"  placeholder="Name" value="{{val.Name}}"><br><br>
-            <input type="text" id="place" name="place" placeholder="Place" value="{{val.place}}"/><br><br>
-            <input type="text" id="Post" name="Post" placeholder="Post" value="{{val.Post}}"/><br><br>
-            <input type="text" id="Pin" name="Pin" placeholder="Pin" value="{{val.Pin}}"/><br><br>
-            <input type="text" id="Phone" name="Phone" placeholder="Phone" value="{{val.Phone}}"><br><br>
-            <input type="email" id="Email" name="Email" placeholder="EMAIL" value="{{val.Email}}"/><br><br> 
-            <button type="submit">MANAGE</button>
-            
-</form>
- </div>
+            {% csrf_token %}
+            <input type="text" id="Name" name="Name" placeholder="Name" value="{{val.Name}}" required>
+            <input type="text" id="place" name="place" placeholder="Place" value="{{val.place}}" required>
+            <input type="text" id="Post" name="Post" placeholder="Post" value="{{val.Post}}" required>
+            <input type="text" id="Pin" name="Pin" placeholder="Pin" value="{{val.Pin}}" required>
+            <input type="text" id="Phone" name="Phone" placeholder="Phone" value="{{val.Phone}}" required>
+            <input type="email" id="Email" name="Email" placeholder="Email" value="{{val.Email}}" required>
+            <button type="submit">Manage</button>
+        </form>
+    </div>
 </body>
 </html>

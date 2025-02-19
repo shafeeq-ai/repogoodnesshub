@@ -1,21 +1,70 @@
-{% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/send notification.css' %}">
+    <title>Send Notification</title>
+    <style>
+        body {
+            background-image: url("https://media.istockphoto.com/id/1707564577/photo/suspect-e-mail-check-security-protection-email-from-spam-virus-checked-on-internet-letter.jpg?b=1&s=612x612&w=0&k=20&c=8nmV9uZeN-BaICgi8QH36b9QdJhiSFcS62GVhqf4gJM=");
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            color: #fff;
+        }
+
+        .main {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #f0f0f0;
+        }
+
+        textarea {
+            width: 80%;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            background-color: rgba(255, 255, 255, 0.9);
+            resize: none;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+    </style>
 </head>
 <body>
     <div class="main">
-        <h2>NOTIFICATION</h2>
-       
+        <h2>Send Notification</h2>
         <form action="" method="post">
-            {%csrf_token%}
-            <textarea name="Notification" id="notification" placeholder="enter notification" rows="5" cols="51"></textarea><br><br>
-           <button type="submit">SENT</button>
-</form>
-</div>
-<body>
+            {% csrf_token %}
+            <textarea name="Notification" id="notification" placeholder="Enter your notification here..." rows="5"></textarea><br><br>
+            <button type="submit">SEND</button>
+        </form>
+    </div>
 </body>
 </html>

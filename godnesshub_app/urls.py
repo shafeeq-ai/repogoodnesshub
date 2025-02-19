@@ -31,6 +31,10 @@ urlpatterns = [
     path('sendnotification', sendnotification.as_view(), name="sendnotification"),
 
     path('adminreply/<int:C_id>/',AdminReply.as_view(), name="adminreply"),
+
+    path('logout',logout.as_view(), name="logout"),
+
+    
     
     
     
@@ -64,10 +68,38 @@ urlpatterns = [
 
     path('complaint', complaint.as_view(), name="complaint"),
 
-    
+    #////api////////////////////////////
+
+    path('UserReg', UserReg.as_view(), name="UserReg"),
+
+    path('LoginPageApi',LoginPageApi.as_view(), name="LoginPageApi"),
+
+    path('foodinfoedit',foodinfoedit.as_view(), name="foodinfoedit"),
+
+    path('FoodDetailsAPIView',FoodDetailsAPIView.as_view(), name="FoodDetailsAPIView"),
+    path('FoodDetailsAPIView/<int:id>',FoodDetailsAPIView.as_view(), name="FoodDetailsAPIView"),
+
+
+    path('items/', ItemTableAPIView.as_view()),
+    path('items/<str:pk>/', ItemTableAPIView.as_view()),
+
+
+    path('requests/', RequestTableAPIView.as_view(), name='request-list'),
+
+    path('donations/', DonationTableAPIView.as_view(), name='donation-list'),
+
+
+
+     path('complaints/', ComplaintTableAPIView.as_view(), name='complaint-list'),
+
+
+
+
+
+
 
 ]
 
 
 
-
+    

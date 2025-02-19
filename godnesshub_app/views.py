@@ -33,6 +33,11 @@ class LoginPage(View):
         else:
             return HttpResponse('''<script>alert("invalid");window.location="/"</script>''')
 
+class logout(View):
+     def get(self, request):
+            return HttpResponse('''<script>alert("logout succesfully");window.location="/"</script>''')
+
+
 
 # /////////////////////////////////////////////////// ADMIN //////////////////////////////////////
 
@@ -295,12 +300,149 @@ class notification(View):
     
 class complaint(View):
     def get(self, request):
+
         return render(request, "restaurant/complaint.html")
-    
-
-    
-
-    
 
 
+# ///////////////////////////////////////////////////// API ////////////////////////////////////////
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from godnesshub_app.serializer import *
+class UserReg(APIView):
+    def post(self,request):
+        print("#############",request.data)
+        User_serial = UserSerializer(data=request.data)
+        login_serial = LoginSerializer(data=request.data)
+        data_valid = User_serial.is_valid()
+        login_valid = login_serial.is_valid()
+        print("#############",data_valid,login_valid)
+        if data_valid and login_valid:
+            print("&&&&&&&&&&&&&&&&&&&&&")
+            password = request.data['password']
+            login_profile = login_serial.save(Type='USER', password=password)
+            User_serial.save(LOGINID=login_profile)
+            return Response(User_serial.data, status=status.HTTP_201_CREATED)
+        return Response({'login_error' :login_serial.errors if not login_valid else None,
+                       'user_error': User_serial.errors if not data_valid else None}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LoginPageApi(APIView):
+    def post(self, request):
+        response_dict = {}
+
+        # Get data from the request
+        username = request.data.get("username")
+        password = request.data.get("password")
+
+        # Validate input
+        if not username or not password:
+            response_dict["message"] = "failed"
+            return Response(response_dict, status=HTTP_400_BAD_REQUEST)
+
+        # Fetch the user from LoginTable
+        t_user = LoginTable.objects.filter(Username=username).first()
+
+        if not t_user:
+            response_dict["message"] = "failed"
+            return Response(response_dict, status=status.HTTP_401_UNAUTHORIZED)
+
+
+        # Successful login response
+        response_dict["message"] = "success"
+        response_dict["login_id"] = t_user.id
+
+        return Response(response_dict, status=status.HTTP_200_OK)
+
+class foodinfoedit(APIView):
+    def get(self, request):
+        foodinfotable = foodinfotable.objects.all()
+        foodinfotable_serializer = foodinfotable(foodinfotable, many = True)
+        print("-------------> Offer images", foodinfotable)
+        return Response(foodinfotable_serializer.data)
+
+
+# API View
+class FoodDetailsAPIView(APIView):
     
+    def get(self, request, pk=None):
+        if pk:
+            food = get_object_or_404(fooddetails, pk=pk)
+            serializer = FoodDetailsSerializer(food)
+        else:
+            food = fooddetails.objects.all()
+            serializer = fooddetailsSerializer(food, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def post(self, request):
+        print(request.data)
+        serializer = fooddetailsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def put(self, request, pk):
+        food = get_object_or_404(fooddetails, pk=pk)
+        serializer = fooddetailsSerializer(food, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    
+class ItemTableAPIView(APIView):
+    
+    def get(self, request, pk=None):
+        if pk:
+            item = get_object_or_404(ItemTable, Category=pk)
+            serializer = ItemTableSerializer(item)
+        else:
+            items = ItemTable.objects.all()
+            serializer = ItemTableSerializer(items, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class RequestTableAPIView(APIView):
+    
+    def get(self, request):
+        requests = RequestTable.objects.all()
+        serializer = requestSerializer(requests, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer = requestSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DonationTableAPIView(APIView):
+    
+    def get(self, request):
+        donations = DonationTable.objects.all()
+        serializer = DonationTableSerializer(donations, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer = DonationTableSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class ComplaintTableAPIView(APIView):
+
+    def get(self, request):
+        complaints = ComplaintTable.objects.all()
+        serializer = ComplaintTableSerializer(complaints, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer = ComplaintTableSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

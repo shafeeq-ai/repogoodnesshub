@@ -1,21 +1,69 @@
-{% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/adminreply.css' %}">
+    <title>Reply Form</title>
 </head>
 <body>
+    <style>
+        body {
+            background-image: url("https://images.pexels.com/photos/15387699/pexels-photo-15387699/free-photo-of-blank-card-with-envelope.jpeg?auto=compress&cs=tinysrgb&w=600");
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        .main {
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 400px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        input,
+        textarea {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        button {
+            padding: 10px 20px;
+            border-radius: 15px;
+            border: none;
+            background-color: black;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #333;
+        }
+
+        h2 {
+            color: aliceblue;
+            margin-bottom: 20px;
+        }
+    </style>
     <div class="main">
         <h2>Reply</h2>
-       
         <form action="" method="post">
-            {%csrf_token%}
-            <textarea name="Reply" id="Reply" placeholder="Reply" rows="5" cols="51"></textarea><br><br>
-           <button type="submit">SENT</button>
-</form>
-</div>
-<body>
+            {% csrf_token %}
+            <textarea name="Reply" id="Reply" placeholder="Write your reply here..." rows="5" cols="51" required></textarea><br><br>
+            <button type="submit">SEND</button>
+        </form>
+    </div>
 </body>
 </html>

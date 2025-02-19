@@ -64,7 +64,7 @@ class ItemTable(models.Model):
 
 class RequestTable(models.Model):
     LOGIN = models.ForeignKey(LoginTable,on_delete=models.CASCADE, null=True, blank=True)
-    Item=models.CharField(max_length=100,blank=True,null=True)
+    Item=models.ForeignKey(ItemTable,on_delete=models.CASCADE,blank=True,null=True)
     Request=models.CharField(max_length=100,blank=True,null=True)
     Quantity=models.IntegerField(blank=True,null=True)
     Date=models.DateField(auto_now_add=True, blank=True,null=True)

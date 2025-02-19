@@ -1,33 +1,125 @@
 {% load static %}
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
    <head>
-      <meta charset="utf-8">
+      <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="stylesheet" href="{% static 'css/camp mmpage.css' %}"/>
-     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+      <title>Camp Management</title>
+      <link rel="stylesheet" href="{% static 'css/camp mmpage.css' %}">
+      <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+      <style>
+         /* Basic styles for navigation bar */
+         nav {
+            background-color: #333;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+         }
 
+         nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+         }
+
+         nav ul li {
+            margin: 0 15px;
+         }
+
+         nav ul li.logo {
+            font-size: 24px;
+            font-weight: bold;
+         }
+
+         nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+         }
+
+         nav ul li a:hover {
+            text-decoration: underline;
+         }
+
+         nav ul li.btn {
+            display: none;
+            cursor: pointer;
+         }
+
+         nav ul li.btn span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 5px 0;
+         }
+
+         nav ul div.items {
+            display: flex;
+         }
+
+         nav ul div.items.show {
+            display: block;
+            flex-direction: column;
+         }
+
+         /* Responsive styles */
+         @media (max-width: 768px) {
+            nav ul {
+               flex-direction: column;
+               align-items: flex-start;
+            }
+
+            nav ul li.btn {
+               display: block;
+            }
+
+            nav ul div.items {
+               display: none;
+               width: 100%;
+               text-align: left;
+            }
+
+            nav ul div.items.show {
+               display: flex;
+            }
+
+            nav ul div.items li {
+               margin: 10px 0;
+            }
+         }
+      </style>
    </head>
    <body>
       <nav>
          <ul>
             <li class="logo">CAMP</li>
-            <li class="btn"><span class="fas fa-bars"></span></li>
+            <!-- Hamburger menu for mobile view -->
+            <li class="btn">
+               <span></span>
+               <span></span>
+               <span></span>
+            </li>
+            <!-- Navigation items -->
             <div class="items">
                <li><a href="/AddFoodinformation">FOOD INFORMATION</a></li>
-               <!-- !<li><a href="/manage">MANAGE PROFILE</a></li> -->
-               <li><a href="/campcomplaint">COMPLIANTS</a></li>
+               <li><a href="/campcomplaint">COMPLAINTS</a></li>
                <li><a href="/donation">DONATION</a></li>
                <li><a href="/send_request">REQUEST</a></li>
                <li><a href="/working status">STATUS</a></li>
-              
-
-
-           
+               <li><a href="logout">LOGOUT</a></li>
+            </div>
+         </ul>
       </nav>
+
       <script>
-         $('nav ul li.btn span').click(function(){
-           $('nav ul div.items').toggleClass("show");
-           $('nav ul li.btn span').toggleClass("show");
+         // Toggle navigation menu for mobile view
+         $('nav ul li.btn').click(function() {
+            $('nav ul div.items').toggleClass("show");
          });
       </script>
    </body>

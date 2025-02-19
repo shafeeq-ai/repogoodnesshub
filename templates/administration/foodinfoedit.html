@@ -1,29 +1,103 @@
-{% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/foodinformation.css' %}">
-    
+    <title>Edit Food Information</title>
+    <style>
+        body {
+            background-image: url("https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=600");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .main {
+            background-color: rgba(0, 0, 0, 0.6);
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            color: white;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            text-align: left;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        input {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: rgb(75, 66, 52);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: rgb(100, 90, 72);
+        }
+
+        @media (max-width: 768px) {
+            .main {
+                width: 90%;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="main">
-        <h2>FOOD INFORMATION</h2>
-       
+        <h2>Edit Food Information</h2>
         <form action="" method="post">
-            {%csrf_token%}
+            {% csrf_token %}
+            <label for="foodcategory">Food Category</label>
+            <input type="text" id="foodcategory" name="foodcategory" placeholder="Food Category" value="{{ val.foodcategory }}" required>
             
+            <label for="food_status">Food Status</label>
+            <input type="text" id="food_status" name="food_status" placeholder="Food Status" value="{{ val.food_status }}" required>
             
-            <input type="text" id="first" name="foodcategory"  placeholder="FOOD CATEGORY" value="{{val.foodcategory}}"/><br><br>
-            <input type="text" id="phone no" name="food_status"  placeholder="FOOD status" value="{{val.food_status}}"/><br><br>
-            <input type="text" id="contact" name="food_name"  placeholder="FOOD NAME" value="{{val.food_name}}"/><br><br>
-            <input type="text" id="about" name="about" placeholder="about" value="{{val.about}}"/><br><br>
-            <button type="submit">EDIT</button>
-</form>
- </div>
-
- 
-
+            <label for="food_name">Food Name</label>
+            <input type="text" id="food_name" name="food_name" placeholder="Food Name" value="{{ val.food_name }}" required>
+            
+            <label for="about">About</label>
+            <input type="text" id="about" name="about" placeholder="Details about the food" value="{{ val.about }}" required>
+            
+            <button type="submit">Edit</button>
+        </form>
+    </div>
 </body>
 </html>
