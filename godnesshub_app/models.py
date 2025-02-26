@@ -54,20 +54,21 @@ class NotificationTable(models.Model):
     Notification=models.CharField(max_length=100,blank=True,null=True)
     Date=models.DateField(auto_now_add=True, blank=True,null=True)
 
-
-
 class ItemTable(models.Model):
     LOGIN = models.ForeignKey(LoginTable,on_delete=models.CASCADE,null=True, blank=True)
     Item=models.CharField(max_length=100,blank=True,null=True)
     Category=models.CharField(max_length=100,blank=True,null=True)
+    Quantity=models.CharField(max_length=100,blank=True,null=True)
     Image=models.FileField(blank=True,null=True)
 
 class RequestTable(models.Model):
     LOGIN = models.ForeignKey(LoginTable,on_delete=models.CASCADE, null=True, blank=True)
-    Item=models.ForeignKey(ItemTable,on_delete=models.CASCADE,blank=True,null=True)
-    Request=models.CharField(max_length=100,blank=True,null=True)
-    Quantity=models.IntegerField(blank=True,null=True)
+    Item=models.CharField(max_length=100,blank=True,null=True)
     Date=models.DateField(auto_now_add=True, blank=True,null=True)
+    Category=models.CharField(max_length=100,blank=True,null=True)
+    Quantity=models.CharField(max_length=100,blank=True,null=True)
+    Image=models.FileField(blank=True,null=True)
+    status=models.CharField(max_length=100,blank=True,null=True)
 
 class ComplaintTable(models.Model):
     LOGIN=models.ForeignKey(LoginTable,on_delete=models.CASCADE,null=True,blank=True)
@@ -76,14 +77,9 @@ class ComplaintTable(models.Model):
     Date=models.DateField(auto_now_add=True, blank=True,null=True)
 
 class DonationTable(models.Model):
-    Username=models.CharField(max_length=100,blank=True,null=True)
-    Item=models.CharField(max_length=100,blank=True,null=True)
-    Submit=models.CharField(max_length=100,blank=True,null=True)
+    Username=models.ForeignKey(LoginTable,on_delete=models.CASCADE,null=True,blank=True)
+    Amount=models.FloatField(blank=True,null=True)
     Date=models.DateField(blank=True,null=True)
-    Category=models.CharField(max_length=100,blank=True,null=True)
-    
-
-   
 
 class fooddetails(models.Model):
     RESTID=models.ForeignKey(ResturantTable,on_delete=models.CASCADE,blank=True,null=True)

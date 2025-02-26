@@ -86,11 +86,11 @@ urlpatterns = [
 
     path('requests/', RequestTableAPIView.as_view(), name='request-list'),
 
-    path('donations/', DonationTableAPIView.as_view(), name='donation-list'),
+    path('donations', DonationTableAPIView.as_view(), name='donation-list'),
 
-
-
-     path('complaints/', ComplaintTableAPIView.as_view(), name='complaint-list'),
+    path('complaints/<int:lid>', ComplaintTableAPIView.as_view(), name='complaint-list'),
+    path('AddItemApi/<int:lid>', AddItemApi.as_view(), name='AddItemApi'),
+    # path('MedicalAccessoriesApi/', MedicalAccessoriesApi.as_view(), name='MedicalAccessoriesApi'),
 
 
 

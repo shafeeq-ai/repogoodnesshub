@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Form</title>
-    <link rel="stylesheet" href="medical.css">
+    
 </head>
 <body>
     <style>
@@ -95,20 +95,22 @@
     </style>
     <div class="main">
         <h2>Medical Accessories & Clothes</h2>
-        <form action="" method="post">
+        <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <label for="item">Item</label>
             <input type="text" id="item" name="Item" placeholder="Enter Item" required />
 
-            <label for="quantity">Quantity</label>
-            <input type="text" id="quantity" name="Quantity" placeholder="Enter Quantity" required />
+           
 
-            <label for="request">Request</label>
-            <select id="request" name="Request" required>
+            <label for="request">Category</label>
+            <select id="request" name="Category" required>
                 <option value="" disabled selected>Select Request</option>
-                <option value="Medical accessories">Medical Accessories</option>
+                <option value="Medical_accessories">Medical Accessories</option>
                 <option value="Clothes">Clothes</option>
             </select>
+
+            <label for="quantity">Image</label>
+            <input type="file" id="quantity" name="Image" required />
 
             <button type="submit">Send</button>
         </form>

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.views import View
 
 from .models import LoginTable
@@ -195,7 +195,7 @@ class campcomplaint(View):
             
 class donation(View):
     def get(self, request):
-        obj=ComplaintTable.objects.all()
+        obj=DonationTable.objects.all()
         return render(request, "camp\donation.html",{'val':obj})
 
 class manage(View):
@@ -204,16 +204,29 @@ class manage(View):
 
 class send_request(View):
     def get(self, request):
-        return render(request, "camp\send_request.html")
-    def post(self,request):
-        form=requestform(request.POST)
+        return render(request, "camp/send_request.html")
+
+    def post(self, request):
+        print("Received FILES:", request.FILES)  # Debugging: Check if image file is received
+        form = requestform(request.POST, request.FILES)  
+
         if form.is_valid():
-            request_instance=form.save(commit=False)
-            print(request.session.get('lid'))
-            obj=LoginTable.objects.get(id=request.session.get('lid'))
-            request_instance.LOGIN=obj
+            request_instance = form.save(commit=False)
+            obj = LoginTable.objects.get(id=request.session.get('lid'))
+            request_instance.LOGIN = obj
+
+            print("Before Saving - Image:", request_instance.Image)  # Debugging
             request_instance.save()
-            return HttpResponse('''<script>alert("Request sented");window.location="/camp_homepage"</script>''')
+            print("After Saving - Image:", request_instance.Image)  # Debugging
+
+            return HttpResponse('''<script>alert("Request sent");window.location="/camp_homepage"</script>''')
+        else:
+            print("Form errors:", form.errors)  # Debugging: Check if form validation fails
+
+        return HttpResponse("Form submission failed")
+
+
+
     
 class workingstatus(View):
     def get(self, request):
@@ -351,6 +364,7 @@ class LoginPageApi(APIView):
         # Successful login response
         response_dict["message"] = "success"
         response_dict["login_id"] = t_user.id
+        response_dict["type"] = t_user.Type 
 
         return Response(response_dict, status=status.HTTP_200_OK)
 
@@ -391,25 +405,65 @@ class FoodDetailsAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     
+
+
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.views import APIView
+from .models import ItemTable
+
+
 class ItemTableAPIView(APIView):
-    
     def get(self, request, pk=None):
+        print("-------------> Requested Category:", pk)
+
         if pk:
-            item = get_object_or_404(ItemTable, Category=pk)
-            serializer = ItemTableSerializer(item)
-        else:
-            items = ItemTable.objects.all()
-            serializer = ItemTableSerializer(items, many=True)
+            # Normalize category input
+            category = pk.lower()
+
+            if category in ["clothes", "medical_accessories"]:
+                items = ItemTable.objects.filter(Category__iexact=category)
+
+                print(f"-------------> Found {items.count()} items for category: {category}")
+                for item in items:
+                    print(f"Item: {item.Item}, Category: {item.Category}, Image: {item.Image}")
+
+                if items.exists():
+                    serializer = ItemTableSerializer(items, many=True)
+
+                    # Convert response to ensure all fields are strings (to avoid Flutter type issues)
+                    response_data = [
+                        {
+                            "Item": str(item["Item"]) if item["Item"] else "",
+                            "Category": str(item["Category"]) if item["Category"] else "",
+                            "Image": str(item["Image"]) if item["Image"] else "",
+                        }
+                        for item in serializer.data
+                    ]
+
+                    return Response(response_data, status=status.HTTP_200_OK)
+
+                return Response({"message": "No items found for this category"}, status=status.HTTP_404_NOT_FOUND)
+
+            return Response({"message": "Invalid category"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # If no pk is provided, return all items
+        items = ItemTable.objects.all()
+        serializer = ItemTableSerializer(items, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 
 class RequestTableAPIView(APIView):
     
     def get(self, request):
         requests = RequestTable.objects.all()
         serializer = requestSerializer(requests, many=True)
+        print('------------->', serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
+        print(request.data)
         serializer = requestSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -417,32 +471,74 @@ class RequestTableAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class DonationTableAPIView(APIView):
+# class MedicalAccessoriesApi(APIView):
+#     def get(self, request):
+#         donations = ItemTable.objects.filter
+#         serializer = ItemTableSerializer(donations, many=True)
+#         print("--------->", serializer.data)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
     
+class DonationTableAPIView(APIView):
     def get(self, request):
         donations = DonationTable.objects.all()
         serializer = DonationTableSerializer(donations, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        serializer = DonationTableSerializer(data=request.data)
+        data = request.data.copy()
+        user_id = data.get("lid")  # Extract `lid` (LoginTable ID)
+        
+        if user_id:
+            try:
+                user = LoginTable.objects.get(id=user_id)
+                data["Username"] = user.id  # Assign to ForeignKey field
+            except LoginTable.DoesNotExist:
+                return Response({"error": "Invalid User ID"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Auto-fill the Date field if not provided
+        if not data.get("Date"):
+            data["Date"] = datetime.date.today()
+
+        serializer = DonationTableSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 
 class ComplaintTableAPIView(APIView):
-
-    def get(self, request):
+    def get(self, request, lid):
         complaints = ComplaintTable.objects.all()
         serializer = ComplaintTableSerializer(complaints, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def post(self, request):
-        serializer = ComplaintTableSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request, lid):
+        print("---------->", request.data)
+        obj=LoginTable.objects.get(id=lid)
+        comp_obj = ComplaintTable()
+        comp_obj.LOGIN = obj
+        comp_obj.Complaint = request.data.get('complaint')
+        comp_obj.Reply = request.data.get('Reply')
+        comp_obj.save()
+        return Response(status=status.HTTP_201_CREATED)
+    
+class AddItemApi(APIView):
+    # def get(self, request, lid):
+    #     complaints = ComplaintTable.objects.all()
+    #     serializer = ComplaintTableSerializer(complaints, many=True)
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, lid):
+        print("---------->", request.data)
+        obj=LoginTable.objects.get(id=lid)
+        comp_obj = ItemTable()
+        comp_obj.LOGIN = obj
+        comp_obj.Item = request.data.get('name')
+        comp_obj.Category = request.data.get('category')
+        comp_obj.Quantity = request.data.get('quantity')
+        comp_obj.Image = request.data.get('image')
+        comp_obj.save()
+        return Response(status=status.HTTP_201_CREATED)

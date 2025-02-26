@@ -41,7 +41,7 @@ class restcomplaintform(forms.ModelForm):
 class requestform(forms.ModelForm):
          class Meta:
             model = RequestTable
-            fields = ['Item','Request','Quantity']
+            fields = ['Item','Category','Image','Quantity','status']
 
 class StatusForm(forms.ModelForm):
          class Meta:

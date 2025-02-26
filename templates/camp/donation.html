@@ -109,18 +109,19 @@
             <thead>
                 <tr>
                     <th>User Name</th>
-                    <th>Item</th>
+                    <th>Amount</th>
                     <th>Date</th>
-                    <th>Category</th>
+                    
                 </tr>
             </thead>
             <tbody>
                 {% for i in val %}
                 <tr>
-                    <td>{{ i.username }}</td>
-                    <td>{{ i.item }}</td>
-                    <td>{{ i.date }}</td>
-                    <td>{{ i.category }}</td>
+                    <td>{{ i.Username.Username }}</td>
+
+                    <td>{{ i.Amount}}</td>
+                    <td>{{ i.Date }}</td>
+                    
                 </tr>
                 {% endfor %}
             </tbody>
